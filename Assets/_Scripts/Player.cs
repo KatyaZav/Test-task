@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, IInitable
 
         if (enemy != null)
         {
-            float damage = enemy.Damage;
+            float damage = enemy.Damage();
             _health.TakeDamage(damage);
             _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
         }
