@@ -8,16 +8,15 @@ public class Player : MonoBehaviour, IInitable
     [SerializeField] private Animator _animator;
 
     [Header("Settings")]
-    [SerializeField] private float _hp;
-    [SerializeField] private float _speed;
+    [SerializeField] EntitySettings _playerSetting;
 
     private Mover _mover;
     private Health _health;
 
     public void Init()
     {
-        _health = new Health(_hp);
-        _mover = new Mover(_rigidbody, _animator, _speed);
+        _health = new Health(_playerSetting.MaxHealth);
+        _mover = new Mover(_rigidbody, _animator, _playerSetting.Speed);
         
         _health.DeadEvent += Dead;
     }
