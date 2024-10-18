@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IInitable
 {
-    [SerializeField] private Mover _mover;
-    [SerializeField] private Health _health;
-
-    [SerializeField] private float _hp;
-
+    [Header("Components")]
+    [SerializeField] private BarUpdater _healthBar;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Animator _animator;
+
+    [Header("Settings")]
+    [SerializeField] private float _hp;
     [SerializeField] private float _speed;
+
+    private Mover _mover;
+    private Health _health;
 
     public void Init()
     {
@@ -37,9 +40,9 @@ public class Player : MonoBehaviour, IInitable
         {
             float damage = enemy.Damage;
             _health.TakeDamage(damage);
+            _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
         }
     }
-
 
     private void Dead()
     {
