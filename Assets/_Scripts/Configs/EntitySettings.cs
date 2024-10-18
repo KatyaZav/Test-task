@@ -8,8 +8,10 @@ public class EntitySettings : ScriptableObject
     [SerializeField] private float _speed;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _damage;
+    [SerializeField] private float _coolDown;
 
     public float MaxHealth => _maxHealth;
     public float Speed => _speed;
     public float Damage => _damage;
+    public float CoolDown => _coolDown;
 }

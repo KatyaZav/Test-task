@@ -1150,7 +1150,11 @@ MonoBehaviour:
   _healthBar: {fileID: 1938810698}
   _rigidbody: {fileID: 1718143423}
   _animator: {fileID: 1718143425}
-  _playerSetting: {fileID: 11400000, guid: 1fc9d860fbd7cb049b3faf0f72b6d084, type: 2}
+  _setting: {fileID: 11400000, guid: 1fc9d860fbd7cb049b3faf0f72b6d084, type: 2}
+  _raduis: 5
+  _enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1824395678
 GameObject:
   m_ObjectHideFlags: 0

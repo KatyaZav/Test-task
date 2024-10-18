@@ -20,7 +20,7 @@ public class Health
     {
         _health -= damage;
 
-        if (_health < 0 )
+        if (_health <= 0 )
             DeadEvent?.Invoke();
     }
 }

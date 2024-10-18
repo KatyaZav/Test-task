@@ -15,3 +15,4 @@ MonoBehaviour:
   _speed: 4
   _maxHealth: 20
   _damage: 2
+  _coolDown: 3

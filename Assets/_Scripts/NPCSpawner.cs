@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
@@ -12,10 +13,13 @@ public class NPCSpawner : MonoBehaviour
 
     [SerializeField] Transform _leftBorder, _rightBorder;
 
-    private float _timer;
+    private Timer _timer;
 
     private void Start()
     {
+        _timer = new Timer(_spawnTime);
+        _timer.TimerOverEvent += Spawn;
+
         for (var i = 0; i < 5; i++)
         {
             Spawn();
@@ -27,13 +31,12 @@ public class NPCSpawner : MonoBehaviour
         if (_NPCHolder.EnemiesCount > _maxNPCCount)
             return;
 
-        _timer += Time.deltaTime;
+        _timer.UpdateTime();
+    }
 
-        if (_timer > _spawnTime)
-        {
-            _timer = 0;
-            Spawn();
-        }
+    private void OnDestroy()
+    {
+        _timer.TimerOverEvent += Spawn;
     }
 
     public void Spawn()

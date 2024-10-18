@@ -17,12 +17,19 @@ public class Enemy : MonoBehaviour
 
     private Mover _mover;
     private Health _health;
+    private Timer _timer;
 
     private Transform _player;
     private bool _isDead = false;
 
 
     public float Damage() => _setting.Damage;
+
+    public void TakeDamage(float damage)
+    {
+        _health.TakeDamage(damage);
+        _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
+    }
 
     public void Init(Transform player)
     {
@@ -31,6 +38,7 @@ public class Enemy : MonoBehaviour
 
         _health = new Health(_setting.MaxHealth);
         _mover = new Mover(_rigidbody, _animator, _setting.Speed);
+        _timer = new Timer(_setting.CoolDown);
 
         _health.DeadEvent += OnDead;
     }

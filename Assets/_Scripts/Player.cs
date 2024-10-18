@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IInitable
@@ -8,17 +9,24 @@ public class Player : MonoBehaviour, IInitable
     [SerializeField] private Animator _animator;
 
     [Header("Settings")]
-    [SerializeField] EntitySettings _playerSetting;
+    [SerializeField] private EntitySettings _setting;
+    [SerializeField] private float _raduis;
+    [SerializeField] private LayerMask _enemyMask;
 
     private Mover _mover;
     private Health _health;
+    private Timer _timer;
+
+    private bool _canHit = false;
 
     public void Init()
     {
-        _health = new Health(_playerSetting.MaxHealth);
-        _mover = new Mover(_rigidbody, _animator, _playerSetting.Speed);
-        
-        _health.DeadEvent += Dead;
+        _health = new Health(_setting.MaxHealth);
+        _mover = new Mover(_rigidbody, _animator, _setting.Speed);
+        _timer = new Timer(_setting.CoolDown);
+
+        _health.DeadEvent += OnDead;
+        _timer.TimerOverEvent += ActivateCanHit;
     }
     
     public void SetMovement(Vector3 direction)
@@ -28,7 +36,37 @@ public class Player : MonoBehaviour, IInitable
 
     private void OnDestroy()
     {
-        _health.DeadEvent -= Dead;        
+        _health.DeadEvent -= OnDead;        
+        _timer.TimerOverEvent -= ActivateCanHit;
+    }
+
+    private void Update()
+    {
+        _timer.UpdateTime();
+
+        if (_canHit == false)
+            return;
+
+        var enemies = Physics.OverlapSphere(transform.position, _raduis, _enemyMask.value);
+        print(enemies.Length);
+
+        if (enemies.Length == 0)
+            return;
+
+        var min = Mathf.Infinity;
+        GameObject finalTarget = enemies[0].gameObject;
+
+        foreach(var enemy in enemies)
+        {
+            var distance = (enemy.transform.position - transform.position);
+            if (distance.magnitude < min)
+            {
+                finalTarget = enemy.gameObject;
+                min = distance.magnitude;
+            }
+        }
+
+        OnHit(finalTarget);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,7 +81,21 @@ public class Player : MonoBehaviour, IInitable
         }
     }
 
-    private void Dead()
+    private void ActivateCanHit()
+    {
+        _canHit = true;
+        _timer.Stop();
+    }
+
+    private void OnHit(GameObject target)
+    {
+        _canHit = false;
+        _timer.Start();
+
+        target.GetComponent<Enemy>().TakeDamage(_setting.Damage);
+    }
+
+    private void OnDead()
     {
         Debug.Log("player dead");
     }
