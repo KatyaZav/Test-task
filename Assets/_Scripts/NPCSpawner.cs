@@ -14,6 +14,14 @@ public class NPCSpawner : MonoBehaviour
 
     private float _timer;
 
+    private void Start()
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            Spawn();
+        }
+    }
+
     private void Update()
     {
         if (_NPCHolder.EnemiesCount > _maxNPCCount)

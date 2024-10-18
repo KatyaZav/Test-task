@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
         Vector3 direction = _player.position - transform.position;
         direction = direction.normalized;
         _mover.SetMovement(direction);
+        //transform.LookAt(_player);
     }
 
     private void OnDestroy()

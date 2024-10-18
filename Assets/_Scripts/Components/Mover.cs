@@ -18,6 +18,7 @@ public class Mover
     public void SetMovement(Vector3 direction)
     {
         _rigidbody.velocity = direction * _speed;
+        _rigidbody.transform.LookAt(_rigidbody.transform.position + direction);
 
         if (_animator != null)
         {
