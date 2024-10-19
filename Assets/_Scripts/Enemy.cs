@@ -109,7 +109,7 @@ public class Enemy : MonoBehaviour
         DeadEvent?.Invoke(this);
         Debug.Log($"{gameObject.name} dead");
 
-        var particle = Instantiate(_deadParticle, transform);
+        var particle = Instantiate(_deadParticle, transform.position, Quaternion.identity, null);
         Destroy(particle.gameObject, _particleDeastroyTime);
 
         Destroy(gameObject);

@@ -54,7 +54,6 @@ public class Player : MonoBehaviour, IInitable
             return;
 
         var enemies = Physics.OverlapSphere(transform.position, _raduis, _enemyMask.value);
-        print(enemies.Length);
 
         if (enemies.Length == 0)
             return;
