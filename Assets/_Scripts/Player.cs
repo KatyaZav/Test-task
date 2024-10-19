@@ -28,7 +28,13 @@ public class Player : MonoBehaviour, IInitable
         _health.DeadEvent += OnDead;
         _timer.TimerOverEvent += ActivateCanHit;
     }
-    
+
+    public void TakeDamage(float damage)
+    {
+        _health.TakeDamage(damage);
+        _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
+    }
+
     public void SetMovement(Vector3 direction)
     {
         _mover.SetMovement(direction);
@@ -67,18 +73,6 @@ public class Player : MonoBehaviour, IInitable
         }
 
         OnHit(finalTarget);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-        if (enemy != null)
-        {
-            float damage = enemy.Damage();
-            _health.TakeDamage(damage);
-            _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
-        }
     }
 
     private void ActivateCanHit()
