@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private EntitySettings _setting;
+    [SerializeField] private ParticleSystem _deadParticle, _damageParticle;
+    [SerializeField] private float _particleDeastroyTime;
 
     private Mover _mover;
     private Health _health;
@@ -29,6 +31,9 @@ public class Enemy : MonoBehaviour
     {
         _health.TakeDamage(damage);
         _healthBar.SetAmmount(_health.CurrentHealth, _health.MaxHealth);
+
+        var particle = Instantiate(_damageParticle, transform);
+        Destroy(particle.gameObject, _particleDeastroyTime);
     }
 
     public void Init(Transform player)
@@ -60,6 +65,9 @@ public class Enemy : MonoBehaviour
     {
         DeadEvent?.Invoke(this);
         Debug.Log($"{gameObject.name} dead");
+
+        var particle = Instantiate(_deadParticle, transform);
+        Destroy(particle.gameObject, _particleDeastroyTime);
 
         Destroy(gameObject);
     }
