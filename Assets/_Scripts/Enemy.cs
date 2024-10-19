@@ -53,6 +53,8 @@ public class Enemy : MonoBehaviour
 
     public void Updater()
     {
+        _timer.UpdateTime();
+
         Vector3 direction = _player.position - transform.position;
         direction = direction.normalized;
         _mover.SetMovement(direction);
